@@ -1,0 +1,66 @@
+body.admin-route { overflow-x: hidden; overflow-y: auto; }
+body.admin-route #root { min-height: 100%; }
+.admin-shell, .admin-dashboard { min-height: 100vh; color: #442438; background: radial-gradient(circle at 15% 10%, #ffe7ef, transparent 30%), linear-gradient(135deg, #f7eef4, #d8cde1); }
+.admin-shell { display: grid; place-items: center; padding: 28px; }
+.login-card, .setup-card { position: relative; width: min(470px, 100%); padding: 54px; border: 1px solid rgba(126,55,87,.12); border-radius: 30px; background: rgba(255,255,255,.76); box-shadow: 0 35px 80px rgba(91,54,83,.16); backdrop-filter: blur(18px); }
+.admin-brand-mark { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; color: white; background: #a52e61; font-family: 'Playfair Display',serif; font-size: 23px; box-shadow: 0 9px 24px rgba(125,32,73,.2); }
+.admin-kicker { margin: 24px 0 12px; color: #9b3c67; font-size: 9px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+.login-card h1, .setup-card h1, .admin-hero h1 { margin: 0; font-family: 'Playfair Display',serif; font-size: clamp(45px,6vw,72px); line-height: .92; letter-spacing: -.04em; }
+.login-card h1 em, .setup-card h1 em, .admin-hero h1 em { color: #dc477c; }
+.login-card > p:not(.admin-kicker), .setup-card > p:not(.admin-kicker), .admin-hero > div > p:last-child { color: #745a6b; line-height: 1.7; }
+.admin-back { position: absolute; right: 30px; top: 30px; color: #925373; font-size: 11px; text-decoration: none; }
+.login-card form { margin-top: 32px; display: grid; gap: 18px; }
+.login-card label, .caption-field { display: grid; gap: 7px; color: #76566a; font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.login-card input, .caption-field input { width: 100%; padding: 13px 14px; border: 1px solid rgba(126,64,92,.18); border-radius: 11px; color: #432336; background: rgba(255,255,255,.8); outline: none; }
+.login-card input:focus, .caption-field input:focus { border-color: #d95083; box-shadow: 0 0 0 3px rgba(217,80,131,.1); }
+.admin-primary { padding: 14px 20px; border: 0; border-radius: 30px; color: white; background: #a62e61; cursor: pointer; box-shadow: 0 10px 24px rgba(135,33,77,.18); }
+.admin-primary:disabled { opacity: .55; cursor: wait; }
+.admin-error { padding: 11px 13px; border-radius: 10px; color: #8e244f; background: #ffe0e9; font-size: 12px; }
+.setup-steps { display: grid; gap: 10px; margin: 27px 0; }
+.setup-steps span { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,.66); font-size: 12px; }
+.setup-steps b { color: #c24374; }
+.setup-card code { padding: 2px 5px; border-radius: 4px; background: #f4dce6; font-size: 11px; }
+.setup-card > a { color: #94375f; }
+.admin-loading { display: flex; flex-direction: column; gap: 16px; color: #8f4668; }
+.admin-loading i { width: 38px; height: 38px; border: 3px solid #e4bfd0; border-top-color: #a52e61; border-radius: 50%; animation: admin-spin .8s linear infinite; }
+@keyframes admin-spin { to { rotate: 360deg; } }
+.admin-dashboard { padding: 0 max(24px,5vw) 34px; overflow: visible; }
+.admin-header { height: 92px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(101,56,83,.12); }
+.admin-identity, .admin-header-actions { display: flex; align-items: center; gap: 13px; }
+.admin-identity p { margin: 0 0 2px; color: #9d6680; font-size: 8px; letter-spacing: .15em; text-transform: uppercase; }
+.admin-identity strong { font-family: 'Playfair Display',serif; font-size: 19px; }
+.admin-header-actions a, .admin-header-actions button { padding: 10px 14px; border: 1px solid rgba(117,58,86,.17); border-radius: 30px; color: #75425d; background: rgba(255,255,255,.48); text-decoration: none; cursor: pointer; font-size: 11px; }
+.admin-hero { max-width: 1220px; margin: 70px auto 48px; display: flex; align-items: end; justify-content: space-between; gap: 50px; }
+.admin-hero > div:first-child { max-width: 720px; }
+.admin-summary { min-width: 190px; padding: 28px; border-radius: 24px; color: white; background: #a52e61; box-shadow: 0 20px 40px rgba(127,35,75,.2); }
+.admin-summary strong { display: flex; align-items: baseline; gap: 8px; font-family: 'Playfair Display',serif; font-size: 54px; }
+.admin-summary strong span { font-family: 'DM Sans',sans-serif; font-size: 13px; }
+.admin-summary p { margin: 5px 0 0; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; opacity: .75; }
+.page-filters { max-width: 1220px; margin: 0 auto 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+.page-filters button { padding: 9px 15px; border: 1px solid rgba(119,60,88,.13); border-radius: 30px; color: #87556f; background: rgba(255,255,255,.42); cursor: pointer; }
+.page-filters button.active { color: white; background: #9f3260; }
+.slot-grid { max-width: 1220px; margin: auto; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+.slot-card { display: grid; grid-template-columns: 190px 1fr; min-height: 250px; overflow: hidden; border: 1px solid rgba(119,60,88,.11); border-radius: 22px; background: rgba(255,255,255,.68); box-shadow: 0 12px 34px rgba(81,49,76,.08); transition: transform .25s,border-color .25s; }
+.slot-card:hover { transform: translateY(-3px); border-color: rgba(211,70,124,.3); }
+.slot-card.busy { pointer-events: none; }
+.slot-preview { position: relative; min-height: 250px; overflow: hidden; background: #eadde5; }
+.slot-preview img { width: 100%; height: 100%; object-fit: cover; }
+.slot-preview > span { position: absolute; left: 10px; top: 10px; padding: 6px 8px; border-radius: 20px; color: white; background: rgba(75,28,54,.62); backdrop-filter: blur(8px); font-size: 8px; letter-spacing: .12em; text-transform: uppercase; }
+.uploading { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 12px; color: white; text-align: center; background: rgba(93,25,58,.72); font-size: 10px; letter-spacing: .08em; }
+.uploading i { width: 30px; height: 30px; border: 3px solid rgba(255,255,255,.35); border-top-color: white; border-radius: 50%; animation: admin-spin .7s linear infinite; }
+.slot-details { padding: 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 17px; }
+.slot-title span { color: #bd658a; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; }
+.slot-title h3 { margin: 4px 0 0; font-family: 'Playfair Display',serif; font-size: 25px; }
+.slot-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.upload-button, .text-button, .delete-button { padding: 9px 12px; border-radius: 22px; cursor: pointer; font-size: 10px; }
+.upload-button { color: white; background: #a52e61; }
+.file-input { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+.text-button { border: 1px solid #dcb4c6; color: #85465f; background: white; }
+.delete-button { border: 0; color: #ad365e; background: transparent; }
+.admin-footer { max-width: 1220px; margin: 35px auto 0; padding-top: 22px; display: flex; justify-content: space-between; border-top: 1px solid rgba(101,56,83,.12); color: #906b7e; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.admin-toast { position: fixed; z-index: 100; right: 25px; bottom: 25px; max-width: 360px; padding: 14px 18px; border-radius: 13px; color: white; box-shadow: 0 15px 35px rgba(76,34,57,.2); animation: toast-in .35s ease; }
+.admin-toast.success { background: #7b3f63; }
+.admin-toast.error { background: #b32f59; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(15px); } }
+@media (max-width:800px){.login-card,.setup-card{padding:38px 28px}.admin-dashboard{padding-inline:16px}.admin-header{height:78px}.admin-header-actions a{display:none}.admin-hero{margin-top:40px;display:block}.admin-summary{margin-top:25px}.slot-grid{grid-template-columns:1fr}.slot-card{grid-template-columns:130px 1fr}.slot-preview{min-height:230px}.admin-footer{display:grid;gap:8px}.admin-identity .admin-brand-mark{width:40px;height:40px}}
+@media (max-width:520px){.slot-card{grid-template-columns:1fr}.slot-preview{height:210px}.admin-header-actions button{padding:9px}.admin-hero h1{font-size:45px}.admin-summary{min-width:0}.slot-details{padding:20px}}
