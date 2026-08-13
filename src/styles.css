@@ -18,7 +18,7 @@
 * { box-sizing: border-box; }
 html, body, #root { min-width: 320px; min-height: 100%; margin: 0; }
 body { overflow: hidden; }
-button { font: inherit; }
+button { font: inherit; outline: none; -webkit-tap-highlight-color: transparent; }
 button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 
 .scrapbook-app {
