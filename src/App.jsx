@@ -173,6 +173,9 @@ function PlayfulPage({ accepted, onAccept }) {
 }
 
 function LetterPage() {
+  // calendar
+  const leadingDays = (new Date(new Date().getFullYear(), 8, 1).getDay() + 6) % 7
+
   return (
     <div className="page paper-page letter-page">
       <span className="page-kicker">from my heart</span>
@@ -183,6 +186,7 @@ function LetterPage() {
         <p>Here is to everything we have been—and everything we are still becoming.</p>
         <strong>Always yours ♡</strong>
       </div>
+      <div className='letter-calendar' aria-label='September calendar'><h3>September</h3><div className='letter-calendar-weekdays'><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div><div className='letter-calendar-grid'>{Array.from({ length: leadingDays }, (_, index) => <span key={index} />)}{Array.from({ length: 30 }, (_, index) => { const day = index + 1; return <span className={day === 13 ? 'letter-calendar-day marked' : 'letter-calendar-day'} key={day}>{day === 13 && <b>♡</b>}<i>{day}</i></span> })}</div></div>
       <span className="pressed-flower">❀</span>
       <span className="page-number">07</span>
     </div>
