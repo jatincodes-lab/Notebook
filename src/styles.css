@@ -362,7 +362,7 @@ button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 @keyframes paper-confetti { 0% { opacity: 1; transform: rotate(var(--angle)) translateY(0) scale(0); } 100% { opacity: 0; transform: rotate(var(--angle)) translateY(-330px) rotate(260deg) scale(1); } }
 .celebration-popups { position: fixed; z-index: 100; inset: 0; overflow: hidden; pointer-events: none; }
 .celebration-popups span { position: absolute; left: var(--x); top: var(--y); opacity: 0; animation: party-popper 1.8s calc(var(--i) * 8ms) cubic-bezier(.18,.8,.3,1) both; }
-.celebration-word { color: #d93670; font-family: 'Caveat', cursive; font-size: clamp(17px, 2.8vw, 28px); font-weight: 700; white-space: nowrap; text-shadow: 1px 2px 0 white; }
+.celebration-word { color: #d93670; font-family: 'Caveat', cursive; font-size: clamp(17px, 2.8vw, 28px); font-weight: 700; white-space: nowrap; text-shadow: 1px 2px 0 white; animation: party-popper 2.8s calc(var(--i) * 24ms) cubic-bezier(.18,.8,.3,1) both; }
 .celebration-piece { width: 8px; height: 15px; border-radius: 2px; background: hsl(calc(315 + var(--i) * 13), 78%, 62%); }
 @keyframes party-popper { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.1) rotate(0); } 8% { opacity: 1; } 28% { opacity: 1; transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(1) rotate(var(--spin)); } 100% { opacity: 0; transform: translate(-50%, -50%) translate(calc(var(--dx) * 1.35), calc(var(--dy) + 100vh)) scale(.82) rotate(calc(var(--spin) * 2)); } }
 

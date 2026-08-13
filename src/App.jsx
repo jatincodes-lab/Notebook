@@ -212,11 +212,11 @@ function CelebrationPopups({ burst, origin }) {
 }
 
 const confessionItems = [
-  { text: 'I still get butterflies when you smile.', slot: 'intro-main', caption: 'your beautiful smile' },
-  { text: 'You make ordinary days feel special.', slot: 'little-left', caption: 'the little moments' },
-  { text: 'I am endlessly proud of the woman you are.', slot: 'little-right', caption: 'you, always' },
-  { text: 'Every future I imagine has you in it.', slot: 'gallery-left', caption: 'our favourite kind of magic' },
-  { text: 'I would choose you in every universe.', slot: 'gallery-center', caption: 'my forever person' },
+  { text: 'I still get butterflies when you smile.', slot: 'confession-1', caption: 'your beautiful smile' },
+  { text: 'You make ordinary days feel special.', slot: 'confession-2', caption: 'the little moments' },
+  { text: 'I am endlessly proud of the woman you are.', slot: 'confession-3', caption: 'you, always' },
+  { text: 'Every future I imagine has you in it.', slot: 'confession-4', caption: 'our favourite kind of magic' },
+  { text: 'I would choose you in every universe.', slot: 'confession-5', caption: 'my forever person' },
 ]
 
 function ConfessionsOverlay({ open, onClose, imageFor }) {
