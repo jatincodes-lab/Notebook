@@ -27,6 +27,8 @@ button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
   max-width: 100%;
   min-height: 100vh;
   overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
   padding: 22px 30px 18px;
   background:
     radial-gradient(circle at 12% 14%, rgba(255,255,255,.3), transparent 18%),
