@@ -193,7 +193,18 @@ function LetterPage() {
   )
 }
 
+function CelebrationPopups({ burst }) {
+  const popupWords = ['Happy Anniversary', 'Pittu', 'Tuturasur', 'Vaishali', 'Mirchi']
+
+  if (!burst) return null
+  return (
+    <div className="celebration-popups" key={burst} aria-hidden="true">
+      {Array.from({ length: 34 }, (_, index) => <span key={index} style={{ '--i': index, left: `${3 + ((index * 37) % 95)}%`, '--drift': `${((index * 19) % 18) - 9}vw`, '--rotate': `${((index * 29) % 34) - 17}deg`, fontSize: `${16 + (index % 3) * 3}px` }}>{popupWords[index % popupWords.length]}</span>)}
+    </div>
+  )
+}
 function FinalePage({ celebrated, onCelebrate }) {
+
   return (
     <div className={`page paper-page finale-page ${celebrated ? 'celebrated' : ''}`}>
       <span className="page-kicker">to be continued...</span>
@@ -201,17 +212,18 @@ function FinalePage({ celebrated, onCelebrate }) {
       <h2>In every universe,<br /><em>I choose you.</em></h2>
       <p>Six years down. Forever to go.</p>
       <button className="kiss-button" onClick={(event) => { event.stopPropagation(); onCelebrate() }}>
-        {celebrated ? 'happy anniversary! ♥' : 'seal it with a kiss'}
+        {celebrated ? 'Happy Anniversary! ♥' : 'seal it with a kiss'}
       </button>
       <div className="confetti" aria-hidden="true">
         {Array.from({ length: 22 }, (_, index) => <i key={index} style={{ '--i': index }} />)}
       </div>
+
       <span className="page-number">08</span>
     </div>
   )
 }
 
-function PageContent({ page, openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, onOpen, imageFor }) {
+function PageContent({ page, openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst, onOpen, imageFor }) {
   switch (page) {
     case 0: return <Cover onOpen={onOpen} />
     case 1: return <IntroPage photo={imageFor('intro-main')} />
@@ -221,7 +233,7 @@ function PageContent({ page, openedReasons, setOpenedReasons, accepted, setAccep
     case 5: return <GalleryPage leftPhoto={imageFor('gallery-left')} centerPhoto={imageFor('gallery-center')} rightPhoto={imageFor('gallery-right')} />
     case 6: return <PlayfulPage accepted={accepted} onAccept={() => setAccepted(true)} />
     case 7: return <LetterPage />
-    case 8: return <FinalePage celebrated={celebrated} onCelebrate={() => setCelebrated(true)} />
+    case 8: return <FinalePage celebrated={celebrated} onCelebrate={() => { if (celebrated) setCelebrationBurst((count) => count + 1); else setCelebrated(true) }} />
     default: return null
   }
 }
@@ -233,6 +245,7 @@ function App() {
   const [openedReasons, setOpenedReasons] = useState([])
   const [accepted, setAccepted] = useState(false)
   const [celebrated, setCelebrated] = useState(false)
+  const [celebrationBurst, setCelebrationBurst] = useState(0)
   const [flipState, setFlipState] = useState(null)
   const flipTimer = useRef(null)
   const wheelAmount = useRef(0)
@@ -322,6 +335,7 @@ function App() {
 
   return (
     <main className={`scrapbook-app view-${bookView}`} onWheel={onWheel}>
+      <CelebrationPopups burst={celebrationBurst} />
       <div className="desk-shape shape-one" /><div className="desk-shape shape-two" />
       <div className="curved-ribbon" aria-label="A moving ribbon that says six years of us, forever to go">
         <CurvedLoop
@@ -359,17 +373,17 @@ function App() {
           {sheets.map((leafIndex) => (
             <div className={`leaf ${leafIndex < sheet ? 'turned' : ''} ${flipState?.leaf === leafIndex ? `flipping flip-${flipState.direction}` : ''}`} key={leafIndex} style={{ '--leaf': leafIndex, zIndex: flipState?.leaf === leafIndex ? 30 : leafIndex < sheet ? leafIndex + 1 : sheets.length - leafIndex + 5 }}>
               <div className="leaf-face leaf-front">
-                <PageContent page={leafIndex * 2} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated }} imageFor={imageFor} onOpen={next} />
+                <PageContent page={leafIndex * 2} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst }} imageFor={imageFor} onOpen={next} />
               </div>
               <div className="leaf-face leaf-back">
-                <PageContent page={leafIndex * 2 + 1} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated }} imageFor={imageFor} onOpen={next} />
+                <PageContent page={leafIndex * 2 + 1} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst }} imageFor={imageFor} onOpen={next} />
               </div>
             </div>
           ))}
         </div>
 
         <div className="mobile-page" key={page}>
-          <PageContent page={page} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated }} imageFor={imageFor} onOpen={next} />
+          <PageContent page={page} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst }} imageFor={imageFor} onOpen={next} />
         </div>
       </div>
 

@@ -360,6 +360,9 @@ button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .confetti i { --angle: calc(var(--i) * 16.36deg); position: absolute; z-index: 6; left: 50%; top: 72%; width: 6px; height: 9px; border-radius: 2px; background: hsl(calc(330 + var(--i) * 3), 72%, 67%); opacity: 0; }
 .celebrated .confetti i { animation: paper-confetti 1.7s calc(var(--i) * 24ms) ease-out both; }
 @keyframes paper-confetti { 0% { opacity: 1; transform: rotate(var(--angle)) translateY(0) scale(0); } 100% { opacity: 0; transform: rotate(var(--angle)) translateY(-330px) rotate(260deg) scale(1); } }
+.celebration-popups { position: fixed; z-index: 100; inset: 0; overflow: hidden; pointer-events: none; }
+.celebration-popups span { position: absolute; top: -12vh; color: #d93670; font-family: 'Caveat', cursive; font-weight: 700; white-space: nowrap; text-shadow: 1px 2px 0 white; opacity: 0; animation: celebration-word 5.2s calc(var(--i) * 70ms) cubic-bezier(.2,.7,.4,1) both; }
+@keyframes celebration-word { 0% { opacity: 0; transform: translate(-50%, -12vh) rotate(var(--rotate)); } 8% { opacity: 1; } 20% { transform: translate(calc(-50% - var(--drift)), 10vh) rotate(calc(var(--rotate) + 45deg)); } 45% { transform: translate(calc(-50% + var(--drift)), 40vh) rotate(calc(var(--rotate) + 115deg)); } 72% { opacity: 1; transform: translate(calc(-50% - var(--drift)), 75vh) rotate(calc(var(--rotate) + 210deg)); } 100% { opacity: 0; transform: translate(calc(-50% + var(--drift)), 118vh) rotate(calc(var(--rotate) + 320deg)); } }
 
 .book-controls { position: relative; z-index: 50; height: 52px; display: flex; justify-content: center; align-items: center; gap: 20px; }
 .book-controls button { width: 43px; height: 43px; border: 0; border-radius: 50%; color: #7d4968; background: white; box-shadow: 0 8px 19px rgba(60,34,65,.18); cursor: pointer; transition: .2s; }
