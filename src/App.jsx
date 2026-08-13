@@ -193,17 +193,59 @@ function LetterPage() {
   )
 }
 
-function CelebrationPopups({ burst }) {
+function CelebrationPopups({ burst, origin }) {
   const popupWords = ['Happy Anniversary', 'Pittu', 'Tuturasur', 'Vaishali', 'Mirchi']
-
   if (!burst) return null
+
   return (
     <div className="celebration-popups" key={burst} aria-hidden="true">
-      {Array.from({ length: 34 }, (_, index) => <span key={index} style={{ '--i': index, left: `${3 + ((index * 37) % 95)}%`, '--drift': `${((index * 19) % 18) - 9}vw`, '--rotate': `${((index * 29) % 34) - 17}deg`, fontSize: `${16 + (index % 3) * 3}px` }}>{popupWords[index % popupWords.length]}</span>)}
+      {Array.from({ length: 42 }, (_, index) => {
+        const angle = (index / 42) * Math.PI * 2
+        const distance = 110 + (index % 7) * 34
+        const dx = Math.round(Math.cos(angle) * distance)
+        const dy = Math.round(Math.sin(angle) * distance - 145)
+        const word = index % 5 === 0
+        return <span className={word ? 'celebration-word' : 'celebration-piece'} key={index} style={{ '--i': index, '--x': `${origin?.x ?? '50vw'}${origin ? 'px' : ''}`, '--y': `${origin?.y ?? '68vh'}${origin ? 'px' : ''}`, '--dx': `${dx}px`, '--dy': `${dy}px`, '--spin': `${(index % 2 ? 1 : -1) * (180 + index * 17)}deg` }}>{word ? popupWords[(index / 5) % popupWords.length] : ''}</span>
+      })}
     </div>
   )
 }
-function FinalePage({ celebrated, onCelebrate }) {
+
+const confessionItems = [
+  { text: 'I still get butterflies when you smile.', slot: 'intro-main', caption: 'your beautiful smile' },
+  { text: 'You make ordinary days feel special.', slot: 'little-left', caption: 'the little moments' },
+  { text: 'I am endlessly proud of the woman you are.', slot: 'little-right', caption: 'you, always' },
+  { text: 'Every future I imagine has you in it.', slot: 'gallery-left', caption: 'our favourite kind of magic' },
+  { text: 'I would choose you in every universe.', slot: 'gallery-center', caption: 'my forever person' },
+]
+
+function ConfessionsOverlay({ open, onClose, imageFor }) {
+  const [active, setActive] = useState(0)
+  const [position, setPosition] = useState({ x: '72vw', y: '50vh' })
+  const item = confessionItems[active]
+  const image = imageFor(item.slot)
+
+  if (!open) return null
+  return (
+    <div className="confessions-overlay" role="dialog" aria-modal="true" aria-label="My confessions" onPointerMove={(event) => { if (event.pointerType !== 'touch') setPosition({ x: `${Math.min(event.clientX + 22, window.innerWidth - 230)}px`, y: `${Math.min(event.clientY + 22, window.innerHeight - 250)}px` }) }}>
+      <button className="confessions-close" onClick={onClose} aria-label="Close confessions">×</button>
+      <section className="confessions-panel">
+        <span className="page-kicker">things I never say enough</span>
+        <h2>My little<br /><em>confessions.</em></h2>
+        <p className="confessions-note">Hover on desktop. Tap on mobile.</p>
+        <div className="confession-list">
+          {confessionItems.map((confession, index) => <button className={active === index ? 'confession-line active' : 'confession-line'} key={confession.text} onMouseEnter={() => setActive(index)} onFocus={() => setActive(index)} onClick={() => setActive(index)}>{confession.text}</button>)}
+        </div>
+        <figure className="confession-preview" style={{ left: position.x, top: position.y }}>
+          <img src={image.url} alt={item.text} />
+          <figcaption>{item.caption}</figcaption>
+        </figure>
+      </section>
+    </div>
+  )
+}
+
+function FinalePage({ celebrated, onCelebrate, onOpenConfessions }) {
 
   return (
     <div className={`page paper-page finale-page ${celebrated ? 'celebrated' : ''}`}>
@@ -211,9 +253,10 @@ function FinalePage({ celebrated, onCelebrate }) {
       <div className="final-heart">6<span>years</span></div>
       <h2>In every universe,<br /><em>I choose you.</em></h2>
       <p>Six years down. Forever to go.</p>
-      <button className="kiss-button" onClick={(event) => { event.stopPropagation(); onCelebrate() }}>
+      <button className="kiss-button" onPointerDown={(event) => event.stopPropagation()} onClick={(event) => { event.stopPropagation(); event.preventDefault(); onCelebrate(event.currentTarget) }}>
         {celebrated ? 'Happy Anniversary! ♥' : 'seal it with a kiss'}
       </button>
+      {celebrated && <button className="confession-button" onPointerDown={(event) => event.stopPropagation()} onClick={(event) => { event.stopPropagation(); onOpenConfessions() }}>open my confessions ♥</button>}
       <div className="confetti" aria-hidden="true">
         {Array.from({ length: 22 }, (_, index) => <i key={index} style={{ '--i': index }} />)}
       </div>
@@ -223,7 +266,7 @@ function FinalePage({ celebrated, onCelebrate }) {
   )
 }
 
-function PageContent({ page, openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst, onOpen, imageFor }) {
+function PageContent({ page, openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst, setCelebrationOrigin, setConfessionsOpen, onOpen, imageFor }) {
   switch (page) {
     case 0: return <Cover onOpen={onOpen} />
     case 1: return <IntroPage photo={imageFor('intro-main')} />
@@ -233,7 +276,7 @@ function PageContent({ page, openedReasons, setOpenedReasons, accepted, setAccep
     case 5: return <GalleryPage leftPhoto={imageFor('gallery-left')} centerPhoto={imageFor('gallery-center')} rightPhoto={imageFor('gallery-right')} />
     case 6: return <PlayfulPage accepted={accepted} onAccept={() => setAccepted(true)} />
     case 7: return <LetterPage />
-    case 8: return <FinalePage celebrated={celebrated} onCelebrate={() => { if (celebrated) setCelebrationBurst((count) => count + 1); else setCelebrated(true) }} />
+    case 8: return <FinalePage celebrated={celebrated} onCelebrate={(button) => { const rect = button.getBoundingClientRect(); setCelebrationOrigin({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }); setCelebrated(true); setCelebrationBurst((count) => count + 1) }} onOpenConfessions={() => setConfessionsOpen(true)} />
     default: return null
   }
 }
@@ -246,6 +289,8 @@ function App() {
   const [accepted, setAccepted] = useState(false)
   const [celebrated, setCelebrated] = useState(false)
   const [celebrationBurst, setCelebrationBurst] = useState(0)
+  const [celebrationOrigin, setCelebrationOrigin] = useState(null)
+  const [confessionsOpen, setConfessionsOpen] = useState(false)
   const [flipState, setFlipState] = useState(null)
   const flipTimer = useRef(null)
   const wheelAmount = useRef(0)
@@ -335,7 +380,8 @@ function App() {
 
   return (
     <main className={`scrapbook-app view-${bookView}`} onWheel={onWheel}>
-      <CelebrationPopups burst={celebrationBurst} />
+      <CelebrationPopups burst={celebrationBurst} origin={celebrationOrigin} />
+      <ConfessionsOverlay open={confessionsOpen} onClose={() => setConfessionsOpen(false)} imageFor={imageFor} />
       <div className="desk-shape shape-one" /><div className="desk-shape shape-two" />
       <div className="curved-ribbon" aria-label="A moving ribbon that says six years of us, forever to go">
         <CurvedLoop
@@ -373,17 +419,17 @@ function App() {
           {sheets.map((leafIndex) => (
             <div className={`leaf ${leafIndex < sheet ? 'turned' : ''} ${flipState?.leaf === leafIndex ? `flipping flip-${flipState.direction}` : ''}`} key={leafIndex} style={{ '--leaf': leafIndex, zIndex: flipState?.leaf === leafIndex ? 30 : leafIndex < sheet ? leafIndex + 1 : sheets.length - leafIndex + 5 }}>
               <div className="leaf-face leaf-front">
-                <PageContent page={leafIndex * 2} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst }} imageFor={imageFor} onOpen={next} />
+                <PageContent page={leafIndex * 2} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst, setCelebrationOrigin, setConfessionsOpen }} imageFor={imageFor} onOpen={next} />
               </div>
               <div className="leaf-face leaf-back">
-                <PageContent page={leafIndex * 2 + 1} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst }} imageFor={imageFor} onOpen={next} />
+                <PageContent page={leafIndex * 2 + 1} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst, setCelebrationOrigin, setConfessionsOpen }} imageFor={imageFor} onOpen={next} />
               </div>
             </div>
           ))}
         </div>
 
         <div className="mobile-page" key={page}>
-          <PageContent page={page} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst }} imageFor={imageFor} onOpen={next} />
+          <PageContent page={page} {...{ openedReasons, setOpenedReasons, accepted, setAccepted, celebrated, setCelebrated, setCelebrationBurst, setCelebrationOrigin, setConfessionsOpen }} imageFor={imageFor} onOpen={next} />
         </div>
       </div>
 

@@ -361,9 +361,34 @@ button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .celebrated .confetti i { animation: paper-confetti 1.7s calc(var(--i) * 24ms) ease-out both; }
 @keyframes paper-confetti { 0% { opacity: 1; transform: rotate(var(--angle)) translateY(0) scale(0); } 100% { opacity: 0; transform: rotate(var(--angle)) translateY(-330px) rotate(260deg) scale(1); } }
 .celebration-popups { position: fixed; z-index: 100; inset: 0; overflow: hidden; pointer-events: none; }
-.celebration-popups span { position: absolute; top: -12vh; color: #d93670; font-family: 'Caveat', cursive; font-weight: 700; white-space: nowrap; text-shadow: 1px 2px 0 white; opacity: 0; animation: celebration-word 5.2s calc(var(--i) * 70ms) cubic-bezier(.2,.7,.4,1) both; }
-@keyframes celebration-word { 0% { opacity: 0; transform: translate(-50%, -12vh) rotate(var(--rotate)); } 8% { opacity: 1; } 20% { transform: translate(calc(-50% - var(--drift)), 10vh) rotate(calc(var(--rotate) + 45deg)); } 45% { transform: translate(calc(-50% + var(--drift)), 40vh) rotate(calc(var(--rotate) + 115deg)); } 72% { opacity: 1; transform: translate(calc(-50% - var(--drift)), 75vh) rotate(calc(var(--rotate) + 210deg)); } 100% { opacity: 0; transform: translate(calc(-50% + var(--drift)), 118vh) rotate(calc(var(--rotate) + 320deg)); } }
+.celebration-popups span { position: absolute; left: var(--x); top: var(--y); opacity: 0; animation: party-popper 1.8s calc(var(--i) * 8ms) cubic-bezier(.18,.8,.3,1) both; }
+.celebration-word { color: #d93670; font-family: 'Caveat', cursive; font-size: clamp(17px, 2.8vw, 28px); font-weight: 700; white-space: nowrap; text-shadow: 1px 2px 0 white; }
+.celebration-piece { width: 8px; height: 15px; border-radius: 2px; background: hsl(calc(315 + var(--i) * 13), 78%, 62%); }
+@keyframes party-popper { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.1) rotate(0); } 8% { opacity: 1; } 28% { opacity: 1; transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(1) rotate(var(--spin)); } 100% { opacity: 0; transform: translate(-50%, -50%) translate(calc(var(--dx) * 1.35), calc(var(--dy) + 100vh)) scale(.82) rotate(calc(var(--spin) * 2)); } }
 
+
+.confession-button { position: relative; z-index: 7; margin-top: 12px; padding: 9px 15px; border: 1px dashed #d985a4; border-radius: 24px; color: #9a4169; background: rgba(255,255,255,.6); cursor: pointer; font-family: 'Caveat', cursive; font-size: 17px; }
+.confession-button:hover { color: white; background: #d84979; }
+.confessions-overlay { position: fixed; z-index: 140; inset: 0; display: grid; place-items: center; padding: 28px; background: rgba(46,22,43,.88); backdrop-filter: blur(7px); }
+.confessions-panel { position: relative; width: min(920px, 100%); min-height: min(650px, 100%); overflow: hidden; padding: 52px clamp(28px, 7vw, 92px); color: #fff8f4; background: linear-gradient(135deg, #8d2851, #c54876 58%, #df7998); box-shadow: 0 25px 70px rgba(14,5,16,.4); }
+.confessions-panel::after { content: '♡'; position: absolute; right: 8%; bottom: -12%; color: rgba(255,255,255,.14); font-family: Georgia, serif; font-size: 280px; }
+.confessions-panel .page-kicker { position: relative; color: #ffd9e5; }
+.confessions-panel h2 { position: relative; z-index: 2; margin: 18px 0 8px; color: white; font-size: clamp(38px, 6vw, 68px); }
+.confessions-note { position: relative; z-index: 2; margin: 0 0 28px; color: #ffe1e9; font-family: 'Caveat', cursive; font-size: 18px; }
+.confession-list { position: relative; z-index: 3; display: grid; gap: 10px; max-width: 570px; }
+.confession-line { padding: 8px 0; border: 0; border-bottom: 1px solid rgba(255,255,255,.28); color: rgba(255,255,255,.62); background: transparent; cursor: pointer; font-family: 'Caveat', cursive; font-size: clamp(22px, 3vw, 32px); text-align: left; transition: .2s; }
+.confession-line:hover, .confession-line:focus-visible, .confession-line.active { color: white; transform: translateX(8px); }
+.confession-preview { position: fixed; z-index: 4; width: 205px; height: 255px; margin: 0; padding: 8px 8px 26px; rotate: 3deg; background: white; box-shadow: 0 15px 30px rgba(57,16,39,.3); pointer-events: none; transform: translateY(-50%); transition: left .18s ease, top .18s ease; }
+.confession-preview img { width: 100%; height: 100%; object-fit: cover; }
+.confession-preview figcaption { position: absolute; left: 0; right: 0; bottom: 4px; color: #74445d; font-family: 'Caveat', cursive; font-size: 15px; text-align: center; }
+.confessions-close { position: fixed; z-index: 150; top: 22px; right: 26px; width: 42px; height: 42px; border: 1px solid rgba(255,255,255,.6); border-radius: 50%; color: white; background: rgba(80,17,48,.35); cursor: pointer; font-size: 28px; line-height: 1; }
+@media (max-width: 760px) {
+  .confessions-overlay { padding: 14px; }
+  .confessions-panel { min-height: min(680px, 100%); padding: 40px 24px 250px; }
+  .confession-preview { top: auto !important; left: 50% !important; bottom: 22px; width: min(175px, 46vw); height: 190px; transform: translateX(-50%); }
+  .confession-line { font-size: 22px; }
+  .confessions-close { top: 13px; right: 14px; }
+}
 .book-controls { position: relative; z-index: 50; height: 52px; display: flex; justify-content: center; align-items: center; gap: 20px; }
 .book-controls button { width: 43px; height: 43px; border: 0; border-radius: 50%; color: #7d4968; background: white; box-shadow: 0 8px 19px rgba(60,34,65,.18); cursor: pointer; transition: .2s; }
 .book-controls button:not(:disabled):hover { color: white; background: var(--berry); transform: translateY(-3px); }
