@@ -29,8 +29,9 @@ create table if not exists public.page_images (
 );
 
 -- Keep existing projects in sync when confession slots are added later.
+alter table public.page_images drop constraint if exists page_image_slot_key_check;
 alter table public.page_images drop constraint if exists page_images_slot_key_check;
-alter table public.page_images add constraint page_images_slot_key_check check (slot_key in (
+alter table public.page_images add constraint page_image_slot_key_check check (slot_key in (
   'intro-main',
   'little-left',
   'little-right',
