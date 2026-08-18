@@ -15,13 +15,34 @@ create table if not exists public.page_images (
     'little-right',
     'gallery-left',
     'gallery-center',
-    'gallery-right'
+    'gallery-right',
+    'confession-1',
+    'confession-2',
+    'confession-3',
+    'confession-4',
+    'confession-5'
   )),
   storage_path text not null,
   caption text not null default '',
   updated_at timestamptz not null default now(),
   unique (page_number, slot_key)
 );
+
+-- Keep existing projects in sync when confession slots are added later.
+alter table public.page_images drop constraint if exists page_images_slot_key_check;
+alter table public.page_images add constraint page_images_slot_key_check check (slot_key in (
+  'intro-main',
+  'little-left',
+  'little-right',
+  'gallery-left',
+  'gallery-center',
+  'gallery-right',
+  'confession-1',
+  'confession-2',
+  'confession-3',
+  'confession-4',
+  'confession-5'
+));
 
 alter table public.admins enable row level security;
 alter table public.page_images enable row level security;
